@@ -1,5 +1,5 @@
 var starImg, fairyImg, bgImg;
-var fairy;
+var fairy , fairyVoice;
 var star, starBody;
 
 const Engine = Matter.Engine;
@@ -9,10 +9,11 @@ const Body = Matter.Body;
 
 function preload()
 {
-	starImg = loadImage("star.png");
-	fairyImg = loadAnimation("fairyImage1.png","fairyImage2.png");
-	bgImg = loadImage("starNight.png");
-	
+	starImg = loadImage("images/star.png");
+	fairyImg = loadAnimation("images/fairyImage1.png","images/fairyImage2.png");
+	bgImg = loadImage("images/starNight.png");
+	fairyVoice = loadSound("sound/JoyMusic.mp3");
+
 }
 
 function setup() {
@@ -34,35 +35,39 @@ function setup() {
 	starBody = Bodies.circle(650 , 30 , 5 , {restitution:0.5, isStatic:true});
 	World.add(world, starBody);
 	
+	star.x=starBody.position.x
+  star.y=starBody.position.y
 	Engine.run(engine);
 
-	
 }
+
 
 function draw() {
   background(bgImg);
 
-  fairy.velocityX=0;
-
-  if(starBody.position.y > 470){
-	  star.position.y = 470;
-  }
+  if(star.y>470){
+	star.velocityY=0
+	fairy.velocityX=0
+	star.y=460
+	star.x=640
+	fairy.x=500
+	fairy.y=480
+	fairyVoice.play()
+}
 
   drawSprites();
 
-  keyPressed();
 }
 
 function keyPressed() {
-	if(keyCode === RIGHT_ARROW){
-		fairy.velocityX=5;
-}
-
-if(keyCode === LEFT_ARROW){
-	fairy.velocityX=-5;
-}
-
-if(keyCode === DOWN_ARROW){
-	star.velocityY=10;
-}
+	if(keyCode=== LEFT_ARROW){
+		fairy.velocityX=-5
+	}
+	if(keyCode=== RIGHT_ARROW){
+          fairy.velocityX=5
+	}
+	if(keyCode=== DOWN_ARROW){
+		star.velocityY=5
+		
+	}
 }
